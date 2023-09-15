@@ -1,6 +1,8 @@
 *{
     margin: 0;
     padding: 0;
+    --primary-color: #94a3b8;
+    --secondary-color: #e2e8f0;
 }
 
 body{
@@ -13,7 +15,7 @@ body{
 header{
     width: 100%;
     height: 10vh;
-    background-color: #94a3b8;
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,17 +27,67 @@ h1{
 }
 
 .container{
-    padding: 50px 100px 50px 100px;
+    padding: 20px 100px 50px 100px;
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.inputs{
+    padding: 0px 0 20px 0;
+}
+
+.inputs form{
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-1, .player-2{
+    display: flex;
+}
+
+.user-input, .img-wrapper{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-input{
+    padding: 0 10px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-input input{
+    width: 100px;
+    height: 30px;
+    border: none;
+    padding-left: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 25px;
+}
+
+.user-input input:focus{
+    outline: none;
+}
+
 .game-container {
-    border: solid #cbd5e1 1px;
+    border: solid var(--primary-color) 1px;
     min-width: 5vh;
     width: 100%;
     max-width: 70vh;
     aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.grid-item{
+    cursor:pointer;
 }
