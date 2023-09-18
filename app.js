@@ -2,10 +2,8 @@ const gameBoard = document.querySelector('.game-container');
 let gameTiles = ['','','','','','','','',''];
 const userForm = document.getElementById("start-game");
 const submitButton = document.getElementById("start-button");
-const winningBanner = document.querySelector('.winning-banner')
-const winnerText = document.querySelector('.winner-text')
 let player1, player2;
-let winner;
+let winner = 1;
 let currentPlayer = 'X';
 
 const winningCombinations = [
@@ -30,17 +28,25 @@ const playerFactory = (name, shape) =>{
     return {getName, getShape}
 }
 
+
+const winningBanner = document.createElement('div');
+const winnerText = document.createElement('div');
+winningBanner.classList.add('winning-banner');
+winnerText.classList.add('winner-text');
 function createBoard(){
     gameBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
     gameBoard.style.gridTemplateRows = 'repeat(3, 1fr)';
     gameTiles = ['','','','','','','','',''];
-    winningBanner.style.display = 'none';
-    winner = null;
+
+    //not working
+
     createPlayers()
     for(let i = 0; i < 9; i++){
         newTile = createTile(i);
         gameBoard.appendChild(newTile.div);
     }
+    gameBoard.appendChild(winningBanner);
+    winningBanner.appendChild(winnerText);
 }
 
 function togglePlayer(){
@@ -51,8 +57,8 @@ function imageSelector(){
     source = currentPlayer === 'X' ? 'cross.png' : 'circle.png';
     const image = document.createElement('img');
     image.src = source;
-    image.style.maxWidth = '100%';
-    image.style.maxHeight = '100%';
+    image.style.maxWidth = '97%';
+    image.style.maxHeight = '97%';
     return image;
 }
 
@@ -79,17 +85,24 @@ const winChecker = () =>{
         const [a, b, c] = combination;
         if (gameTiles[a] && gameTiles[a] === gameTiles[b] && gameTiles[a] === gameTiles[c]) {
             if (currentPlayer == 'O') {
-                winner = player1.getName();
+                winner = `${player1.getName()} wins!`;
             } else {
-                winner = player2.getName();
+                winner = `${player2.getName()} wins!`;
             }
         }
     }
     if(winner){
         console.log(`${winner} wins`)
-        winnerText.textContent = `${winner} wins!`;
+        winnerText.textContent = winner;
+        winningBanner.style.display = 'flex';
+        return
+    }
+    if(!gameTiles.includes('')){
+        winner = 'Draw!'
+        winnerText.textContent = winner;
         winningBanner.style.display = 'flex';
     }
+    
 }
 
 const createTile = (index) =>{
@@ -113,11 +126,14 @@ userForm.addEventListener("submit", function(event) {
     event.preventDefault();
     if(submitButton.textContent == "Start Game"){
         submitButton.textContent = "Restart"
+        winner = null;
         console.log("registered")
         gameBoard.innerHTML = ''
+        winningBanner.style.display = 'none'
     } else {
         submitButton.textContent = "Start Game"
         console.log("registered")
+        winningBanner.style.display = 'none'
         gameBoard.innerHTML = ''
     }
     createBoard()
